@@ -1,0 +1,9 @@
+strpbk (check if char in string is in other string)
+strtok (split into tokens)
+`strtok(str, delim) -> strtok(NULL, delim) -> NULL`
+
+Debian lib naming:
+lib[name][version]
+    -> if -dev: header files
+    -> if not: regular lib
+
