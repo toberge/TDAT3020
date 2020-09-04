@@ -9,7 +9,7 @@
 # Bruker argument nr. 1 for å ta imot andre mappebaner,
 # jobber mot /home hvis intet argument ble sendt inn.
 find "${1:-/home}" -type f -atime +7 -size +10k \
-    -not -name "*.zip" -not -name "*.gz" -not -name "*.bz2" -print0 \
+    -not \( -name "*.zip" -name "*.gz" -name "*.bz2" \) -print0 \
     | xargs -0 -I % tar --remove-files -czf %.tar.gz -P %
 
 # testversjon: find "/tmp/tes" -type f -amin +3 -size +10k -print0 | xargs -0 -n1 echo
