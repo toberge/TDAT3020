@@ -1,0 +1,11 @@
+add_executable(sanitizer_test sanitizer_test.c ../sanitizer.c)
+target_link_libraries(sanitizer_test sanitizer)
+target_compile_options(sanitizer_test PRIVATE -fsanitize=address)
+target_link_options(sanitizer_test PRIVATE -fsanitize=address)
+add_test(NAME sanitizer_test COMMAND sanitizer_test)
+
+add_executable(sanitizer_fuzzer_test sanitizer_fuzzer_test.c ../sanitizer.c)
+target_link_libraries(sanitizer_fuzzer_test sanitizer)
+target_compile_options(sanitizer_fuzzer_test PRIVATE -fsanitize=address,fuzzer)
+target_link_options(sanitizer_fuzzer_test PRIVATE -fsanitize=address,fuzzer)
+add_test(NAME sanitizer_fuzzer_test COMMAND sanitizer_fuzzer_test)
