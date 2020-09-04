@@ -1,0 +1,19 @@
+# Start with "sxhkd -c sxhkdrc"
+
+1
+    sleep 0.1 && xdotool type "gcc -c -fPIC a_function.c more_functions.c"
+
+2
+    sleep 0.1 && xdotool type "gcc -shared a_function.o more_functions.o -o libfunctions.so"
+
+3
+    sleep 0.1 && xdotool type "sudo cp libfunctions.so /usr/lib"
+
+4
+    sleep 0.1 && xdotool type "gcc main.c -lfunctions -o c_example"
+
+5
+    sleep 0.1 && xdotool type "./c_example"
+
+6
+    sleep 0.1 && xdotool type "ldd c_example"

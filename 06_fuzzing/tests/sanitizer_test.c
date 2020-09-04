@@ -1,9 +1,14 @@
 #include "sanitizer.h"
 #include <assert.h>
 #include <string.h>
+#include <stdlib.h>
 
 int main() {
     char *str = "&";
-    assert(strcmp(sanitize(str), "&amp;") == 0);
+    char *out;
+    assert(strcmp((out = sanitize(str)), "&amp;") == 0);
+    free(out);
+    str = "";
+    assert(strcmp((out = sanitize(str)), "") == 0);
+    free(out);
 }
-
