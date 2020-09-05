@@ -1,0 +1,15 @@
+image: archlinux:latest
+
+before_script:
+  - pacman -Syu --noconfirm clang cmake make
+  - mkdir build && cd build
+  - cmake ..
+  - make
+
+unit_tests:
+  script:
+    - ./tests/sanitizer_test
+
+fuzzer:
+  script:
+    - ./tests/sanitizer_fuzzer_test -max_total_time=20
