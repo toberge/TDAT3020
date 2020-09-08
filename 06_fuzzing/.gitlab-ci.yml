@@ -12,4 +12,4 @@ unit_tests:
 
 fuzzer:
   script:
-    - ./tests/sanitizer_fuzzer_test -max_total_time=20
+    - ./tests/sanitizer_fuzzer_test -max_total_time=120
