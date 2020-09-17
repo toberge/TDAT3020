@@ -1,0 +1,25 @@
+{
+  "name": "auth-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "body-parser": "^1.19.0",
+    "file-system": "^2.2.2",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.3"
+  },
+  "keywords": [
+    "authentication",
+    "hashing"
+  ],
+  "author": "Tore Bergebakken",
+  "license": "ISC"
+}

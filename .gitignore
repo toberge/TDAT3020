@@ -8,5 +8,9 @@ build
 target
 Cargo.lock
 
+# NodeJS
+node_modules
+package-lock.json
+
 # Submissions
 *.tar.gz
