@@ -21,6 +21,7 @@
 using namespace std;
 
 // Mr. Eidheim's code..
+// ser at han bruker en del fancy formatering for strømmer
 std::string hex(const std::string &input) {
   std::stringstream hex_stream;
   hex_stream << std::hex << std::internal << std::setfill('0');
@@ -46,7 +47,7 @@ string hashit(const string &pass, const string &salt, const long bitsize) {
     return out;
 }
 
-// Complexity: O(k^n) where k 
+// Complexity: O(k^n) where k is number of chars in [START_CHAR, END_CHAR]
 string findit(function<bool(string)> operation) {
     string test;
     int maxsize = 30;
@@ -86,6 +87,7 @@ int main() {
     const string thekey = "ab29d7b5c589e18b52261ecba1d3a7e7cbf212c6";
     const string thesalt = "Saltet til Ola";
     cout << thekey << endl;
+    // to demonstrate: the hex of the hash of QwE is equal to the key
     cout << hex(hashit("QwE", thesalt, OUTSIZE)) << endl;
     const string result = findit([&thekey, &thesalt](string test) {
         return thekey == hex(hashit(test, thesalt, OUTSIZE));
