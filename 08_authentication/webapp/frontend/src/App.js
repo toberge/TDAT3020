@@ -8,7 +8,7 @@ function App() {
   const [token, setToken] = useState(null);
   const [flip, setFlip] = useState(false);
   return (
-    <div className="App" id={flip ? 'grey' : 'white'}>
+    <div className="App" id={flip ? "grey" : "white"}>
       {loggedIn ? (
         <BigButton toggle={handleLogOut} wiggle={handleDoSomething} />
       ) : (
@@ -87,14 +87,20 @@ function LoginForm({ setLoggedIn, setToken }) {
   async function handleSubmit(event) {
     event.preventDefault();
     if (!username || !password) {
-      setError('Empty username or password');
+      setError("Empty username or password");
       return;
     }
     try {
       let result;
       // Simply hash with the username as salt - it is deterministic
       // The OpenSSL bindings seem to work somehow...
-      const clientHash = pbkdf2Sync(password, username, 1024, 512, "sha512").toString();
+      const clientHash = pbkdf2Sync(
+        password,
+        username,
+        1024,
+        512,
+        "sha512"
+      ).toString();
       if (isLoggingIn) {
         result = await axios.post("http://localhost:8080/login", {
           username,
@@ -111,7 +117,9 @@ function LoginForm({ setLoggedIn, setToken }) {
       setLoggedIn(true);
     } catch (e) {
       if (e.response && e.response.status === 401) {
-        setError("du fæ itj logge inn gitt");
+        setError("Incorrect username or password.\ndu fæ itj logge inn gitt");
+      } else if (e.response.status === 409) {
+        setError("This user already exists.");
       } else {
         setError(`An error occurred (${e.message})`);
       }
@@ -124,7 +132,7 @@ function BigButton({ toggle, wiggle }) {
     <>
       <h1>Hey there!</h1>
       <button onClick={wiggle}>Do... something</button>
-      <br/>
+      <br />
       <button onClick={toggle}>Log Out</button>
     </>
   );
