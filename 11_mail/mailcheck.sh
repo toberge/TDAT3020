@@ -31,7 +31,7 @@ get_spf() {
 
     IFS=':'
     echo "$dig_output" \
-        | sed -E 's/"//g;s/v=spf[^ ]* //;s/ .all//' \
+        | sed -E 's/"//g;s/v=spf[^ ]* //' \
         | tr ' ' '\n' | {
         while read -r type address
         do
@@ -43,12 +43,22 @@ get_spf() {
             elif [ -n "$address" ] # (nonempty)
             then # This is a simple IP address. Print it.
                 echo "$address"
-            # (modifiers are unsplit since we split on colon)
-            elif [ "${type%%=*}" = "redirect" ]
-            then # It's a redirect! Abort and recurse!
-                printf  "\033[1mRedirect to %s!\033[0m\n" "${type##*=}"
-                get_spf "${type##*=}"
-                break # gtfo
+            else # Split modifiers - they are unsplit since we split on colon
+                case "${type%%=*}" in
+                    +all)
+                        # If the "all" modifier is +all... Madness.
+                        printf "\033[1;31m...and all others\033[0m\n"
+                        return
+                        ;;
+                    *all)
+                        return # Do not parse anything else!
+                        ;;
+                    redirect) # It's a redirect! Abort and recurse!
+                        printf  "\033[1mRedirect to %s!\033[0m\n" "${type##*=}"
+                        get_spf "${type##*=}"
+                        return # gtfo
+                        ;;
+                esac
             fi
         done
     }
