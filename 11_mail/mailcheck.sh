@@ -22,8 +22,8 @@ get_mx() {
     dig +short "$1" mx | cut -d' ' -f2 | sed 's/.$//' | {
         while read -r domain
         do # Then do a reverse lookup to get the IP address
-            printf "\033[1m%s\033[0m -> " "$domain"
-            dig +short "$domain"
+            printf "\033[1m%s:\033[0m\n" "$domain"
+            dig +short "$domain" | sed 's/^/  -> /'
         done
     }
 }
