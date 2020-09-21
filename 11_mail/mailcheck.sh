@@ -1,4 +1,8 @@
 #!/bin/sh
+#
+# Fetches information about a given mail server
+# - MX records and SPF addresses
+# Usage: ./mailcheck.sh domain.rootdomain
 
 die() {
     echo "$@" 1>&2
