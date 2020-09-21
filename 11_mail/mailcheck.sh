@@ -24,6 +24,11 @@ get_mx() {
     }
 }
 
+get_mx_brief() {
+    dig +short -t mx "$1" | cut -d' ' -f2 | sed 's/.$//' \
+        | xargs -n1 dig +short
+}
+
 get_spf() {
     # Perform dig query, find spf line, strip it and split it!
     dig_output=$(dig +short "$1" txt | grep spf )    
@@ -40,6 +45,12 @@ get_spf() {
                 printf "\033[1m%s\033[0m gives:\n" "$address"
                 get_spf "$address" | sed -e 's/^/  /' \
                     || echo "  <nothing>"
+            elif [ "$type" = "a" ]
+            then # Perform an A or AAAA lookup
+                dig +short "${address:-$1}"
+            elif [ "$type" = "mx" ]
+            then # Perform an MX lookup
+                get_mx_brief "${address:-$1}"
             elif [ -n "$address" ] # (nonempty)
             then # This is a simple IP address. Print it.
                 echo "$address"
@@ -48,10 +59,10 @@ get_spf() {
                     +all)
                         # If the "all" modifier is +all... Madness.
                         printf "\033[1;31m...and all others\033[0m\n"
-                        return
+                        break
                         ;;
                     *all)
-                        return # Do not parse anything else!
+                        break # Do not parse anything else!
                         ;;
                     redirect) # It's a redirect! Abort and recurse!
                         printf  "\033[1mRedirect to %s!\033[0m\n" "${type##*=}"
