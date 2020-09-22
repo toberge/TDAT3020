@@ -18,12 +18,16 @@ get_mx_oneline() {
 }
 
 get_mx() {
-    # Perform dig query, strip number and trailing dot
+    # Perform MX query, strip number and trailing dot
     dig +short "$1" mx | cut -d' ' -f2 | sed 's/.$//' | {
         while read -r domain
-        do # Then do a reverse lookup to get the IP address
+        do # Then do DNS lookups AND reverse lookups
             printf "\033[1m%s:\033[0m\n" "$domain"
-            dig +short "$domain" | sed 's/^/  -> /'
+            for ip in $(dig +short "$domain") 
+            do
+                printf "  -> %s ~> %s\n" "$ip" \
+                       "$(dig +short -x "$ip" | sed 's/.$//')"
+            done
         done
     }
 }
@@ -84,7 +88,8 @@ domain="$1"
 # MX-info (-t mx)
 # reverse lookup (-x) on the above
 echo "~~~~~~~~~~~~~~~~~~"
-echo "MX records and IP addresses of those domains:"
+printf "MX record entries, IP addresses of those domains"
+printf " \033[1mand\033[0m reverse lookups:\n"
 get_mx "$domain"
 
 # addresses from spf (with includes!)
