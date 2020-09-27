@@ -25,10 +25,10 @@ This could lead, at the very least, to a crash if the user types `%` anywhere in
 
 ## A fix
 
-Simply merge two of the `printf` calls into this:
+Simply merge two (or three) of the `printf` calls into this:
 
 ```c
-printf("Hello %s", local_28);
+printf("Hello %s\n", local_28);
 ```
 
 Then `local_28` is handled as a variadic argument and _not_ a format string.
@@ -61,7 +61,6 @@ main()
     char name[32];
     printf("Enter your name: ");
     fgets(name, 32, stdin);
-    printf("Hello %s", name);
-    printf("\n");
+    printf("Hello %s\n", name);
 }
 ```
