@@ -57,14 +57,14 @@ Standarden er kanskje ikke fulgt til alle punkt og prikker, men oppgavens krav e
 
 ```
 ~~~~~~~~~~~~~~~~~~
-MX records and IP addresses of those domains:
+MX record entries, IP addresses of those domains and reverse lookups:
 statoil-no.mail.protection.outlook.com:
-  -> 104.47.10.36
-  -> 104.47.8.36
+  -> 104.47.8.36 ~> mail-am5eur030036.inbound.protection.outlook.com
+  -> 104.47.9.36 ~> mail-ve1eur030036.inbound.protection.outlook.com
 ~~~~~~~~~~~~~~~~~~
 SPF addresses (alternative senders):
-104.47.10.36
 104.47.8.36
+104.47.9.36
 spf.protection.outlook.com gives:
   40.92.0.0/15
   40.107.0.0/16
@@ -91,11 +91,11 @@ Inneholder eksempler på `a`- og `mx`-mekanismer.
 
 ```
 ~~~~~~~~~~~~~~~~~~
-MX records and IP addresses of those domains:
+MX record entries, IP addresses of those domains and reverse lookups:
 mx0a-001b2d01.pphosted.com:
-  -> 148.163.156.1
+  -> 148.163.156.1 ~> mx0a-001b2d01.pphosted.com
 mx0b-001b2d01.pphosted.com:
-  -> 148.163.158.5
+  -> 148.163.158.5 ~> mx0b-001b2d01.pphosted.com
 ~~~~~~~~~~~~~~~~~~
 SPF addresses (alternative senders):
 148.163.158.5
@@ -105,13 +105,13 @@ SPF addresses (alternative senders):
 168.245.101.145
 148.163.156.1
 148.163.158.5
-64.79.155.205
 64.79.155.192
-64.79.155.206
-3.129.120.190
 207.218.90.122
-18.216.232.154
 64.79.155.193
+3.129.120.190
+18.216.232.154
+64.79.155.206
+64.79.155.205
 136.179.50.206
 _spf.google.com gives:
   _netblocks.google.com gives:
@@ -154,17 +154,17 @@ Inneholder eksempel på en redirect.
 
 ```
 ~~~~~~~~~~~~~~~~~~
-MX records and IP addresses of those domains:
-alt3.gmail-smtp-in.l.google.com:
-  -> 173.194.201.27
-alt1.gmail-smtp-in.l.google.com:
-  -> 108.177.97.27
-alt2.gmail-smtp-in.l.google.com:
-  -> 74.125.28.27
+MX record entries, IP addresses of those domains and reverse lookups:
 gmail-smtp-in.l.google.com:
-  -> 64.233.162.26
+  -> 108.177.14.27 ~> lt-in-f27.1e100.net
+alt2.gmail-smtp-in.l.google.com:
+  -> 74.125.28.27 ~> pc-in-f27.1e100.net
+alt3.gmail-smtp-in.l.google.com:
+  -> 173.194.201.27 ~> os-in-f27.1e100.net
 alt4.gmail-smtp-in.l.google.com:
-  -> 209.85.146.27
+  -> 209.85.146.27 ~>
+alt1.gmail-smtp-in.l.google.com:
+  -> 108.177.97.27 ~> tm-in-f27.1e100.net
 ~~~~~~~~~~~~~~~~~~
 SPF addresses (alternative senders):
 Redirect to _spf.google.com!
