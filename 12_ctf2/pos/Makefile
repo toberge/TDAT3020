@@ -1,4 +1,4 @@
-.PHONY: mysql connect client ones
+.PHONY: mysql connect client clean
 
 mysql:
 	docker run --name myshop -e MYSQL_ROOT_PASSWORD=gwoieng23fjj \
@@ -12,3 +12,6 @@ client:
 
 barcode.svg:
 	echo "1 UNION SELECT 1" | barcode -S -o barcode.svg
+
+clean:
+	docker stop myshop && docker rm myshop

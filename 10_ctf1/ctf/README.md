@@ -10,6 +10,8 @@
     1,shanel,brynn
     ```
 + but then... since editing/creating just sends us to a login page which sends us to the flag, what else is there to access?
+  + oh-ho-ho, the second hint was a real spoiler...
+  + simply POSTing to /page/1/edit gave the last flag.
 
 # Micro-CMS v1
 
