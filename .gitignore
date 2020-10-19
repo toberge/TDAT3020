@@ -17,6 +17,7 @@ package-lock.json
 
 # Submissions
 *.tar.gz
+*.zip
 *.pdf
 
 # No idea how this folder appeared
