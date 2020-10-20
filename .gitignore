@@ -11,6 +11,9 @@ Cargo.lock
 node_modules
 package-lock.json
 
+# Haskell
+*.hi
+
 # Editors
 .idea
 .ccls-cache
