@@ -34,11 +34,11 @@ Then finally, after running
 reaver -i "$MON" -d 10 -S -N -vv -b "$BSSID"
 ```
 
-for several hours, the PIN was cracked:
+for several hours, the PIN should be cracked.
 
-\<image with obscured PIN\>
+I did try exploiting WPS, but kept getting rate limited -- and in the setup for the router, WPS did not seem to be enabled.
 
-Disabled monitor mode with `airmon-ng stop "$MON"`.
+In any case, I would disable monitor mode with `airmon-ng stop "$MON"`.
 
 ## WPA2
 
@@ -67,4 +67,6 @@ An optional test with e.g. `aireplay-ng -"$CHAN" "$WL"` to check if you can inje
    + The `password.lst` file is in the `test` dir of aircrack's source.
    + In my case, I **put the actual password inside the dictionary** since this is all for the sake of demonstration and I know the key already.
 
-\<image of result\>
+![With a password list consisting of _just_ the correct password](img/password.png){ width=500px }
+
+![Unsuccessful run with Kali's built-in `/usr/share/wordlists/nmap.txt`](img/common.png){ width=500px }
