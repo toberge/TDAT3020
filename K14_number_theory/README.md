@@ -40,7 +40,7 @@ $$
 
 ## 2b)
 
-Som vanlig $1$ og $11$, i tillegg $1$ og $11$. Alle har symmetriske multiplikative inverser.
+Som vanlig $1$ og $11$, i tillegg $5$ og $7$. Alle har symmetriske multiplikative inverser.
 <!-- Dessuten $5$ og $7$, som er innbyrdes multiplikative inverser modulo 12. -->
 
 ## 2c)
@@ -53,10 +53,16 @@ Ingen 0 eller 1 på samme rad/kolonne, dvs.:
 Gitt et tall $a \in \mathbb{Z}_{12}$ slik at
 $\forall x\in \mathbb{Z}_{12},\: ax \not\equiv 1 \Mod{12}$
 
-**TODO**
+Om $a$ hadde vært innbyrdes primisk med $12$, hadde $a$ hatt en multiplikativ invers modulo $12$. Siden $a$ _ikke_ er innbyrdes primisk med $12$, har $12$ og $a$ minst én felles faktor, og da vil det finnes et annet tall som består av de _andre_ faktorene i 12 (og naturlig nok er mindre enn 12).
 
-Da _må_ det finnes et tall $b \in \mathbb{Z}_{12}$ som gir... eh, okei?
+Hvorfor?  
+Trekker fram aritmetikkens fundamentalteorem.
+Et tall kan skrives som et produkt av primtall. $12$ kan skrives $12=2^2\cdot3$.
+Når $\gcd (a,12) > 1$, vil $a$ være et produkt av en eller flere av faktorene til $12$. La $b$ være produktet av de gjenværende faktorene til $12$ (siden $a<12$ kan ikke $a$ bestå av de samme faktorene som $12$). Da er $ab = \text{1 eller flere av faktorene} \cdot \text{de gjenværende faktorene} = 12k$, der $k$ er et heltall, så $12 \vert ab$ og $ab \equiv \Mod{12}$.
 
+Altså: Da _må_ det finnes et tall $b \in \mathbb{Z}_{12}$ som gir $ab \equiv 0 \Mod{12}$.
+
+Dette kan skrives generelt for alle $\mathbb{Z}_N$
 
 # Oppgave 3 - Inverser
 
@@ -76,7 +82,7 @@ Over $\mathbb{Z}_{10}$
 
 $$\det A = 2\cdot8 - 5(-1) = 16 + 5 \equiv 6 + 5 = 11 \equiv 1 \Mod{10}$$
 
-så $A$ har en invers modulo 10:
+Siden $\det A \equiv 1$, som _har_ en multiplikativ invers modulo $10$ (seg selv), så har $A$ har en invers modulo 10:
 
 $$
 A^{-1} =
@@ -98,9 +104,9 @@ Sløyfer $\frac{1}{\det A}$ foran, siden denne er lik $1.$
 
 Over $\mathbb{Z}_{9}$
 
-$$\det A = 2\cdot8 - 5(-1) = 16 + 5 \equiv 7 + 5 = 12 \equiv 3 \Mod{10}$$
+$$\det A = 2\cdot8 - 5(-1) = 16 + 5 \equiv 7 + 5 = 12 \equiv 3 \Mod{9}$$
 
-så $A$ har **ikke** en invers over $\mathbb{Z}_{9}$.
+$3$ har definitivt ikke en multiplikativ invers modulo $9$, siden $3$ og $9$ ikke er innbyrdes primiske ($3\vert9$), så $A$ har **ikke** en invers over $\mathbb{Z}_{9}$.
 
 # Oppgave 4 - Substitusjonschifre
 
@@ -114,11 +120,14 @@ $$N! = 29! = 8,841761994\cdot 10^{30}$$
 
 Enkle grep Alice og Bob kan gjøre for å bedre sikkerheten:
 
-+ $\dots$ **TODO**
++ Gjøre nøkkelen lengre
++ Involvere et annet konsept i chifferet
 
 ## 4c)
 
-Som i 4a: $n!$
+Blokker med $n$ tegn, har en nøkkel som oversetter hvert tegn ved å substituere med en av $29!$ nøkler.
+
+Altså: $\left(29^n\right)!$
 
 # Oppgave 5 - k-shift-chiffer
 
@@ -138,21 +147,42 @@ Bonus: I foilene var det en annen melding kryptert med k-shift-chiffer:
 
 # Oppgave 6 - Blokkchiffer
 
+## Formell definisjon
+
 Formell definisjon av et blokkchiffer basert på et k-shift-chiffer:
 
 $N$ tegn og blokkstørrelse $b$...
 
-Etter mønster av Vigénere-chifferet, bare med én $k$ som nøkkel:
+Kunne satt opp et chiffer mønster av Vigènere-chifferet, bare med én $k$ som nøkkel:
 
 $$
 \begin{aligned}
-\mathcal{P} &= \mathcal{C} = \mathcal{K} = \{x \mid 0 \le x < N\}\\
+\mathcal{P} &= \mathcal{C} = \left(\mathbb{Z}_N\right)^b,
+\:\mathcal{K} = \{x \mid 0 \le x < N\},\\
 e_k(x_1, x_2, \cdots, x_b) &= (x_1 + k, x_2 + k, \cdots, x_b + k) \Mod{N}\\
 d_k(x_1, x_2, \cdots, x_b) &= (x_1 - k, x_2 - k, \cdots, x_b - k) \Mod{N}
 \end{aligned}
 $$
 
-# Oppgave 7 - Vigénere
+**Men: Dette er ikke egentlig noe blokkchiffer siden $k$ er en uniform nøkkel.**
+
+Siden Vigènere-chifferet bruker akkurat samme prinsipp som k-shift, bare med flere forskjellige $k_i$ i nøkkelen $K=(k_1,k_2,\dots,k_b)$, kan vi skrive
+
+$$
+\begin{aligned}
+\mathcal{P} &= \mathcal{C} = \mathcal{K} = \mathcal{K} = \left(\mathbb{Z}\right)^b,\\
+e_k(x_1, x_2, \cdots, x_b) &= (x_1 + k_1, x_2 + k_2, \cdots, x_b + k_b) \Mod{N}\\
+d_k(x_1, x_2, \cdots, x_b) &= (x_1 - k_1, x_2 - k_2, \cdots, x_b - k_b) \Mod{N}
+\end{aligned}
+$$
+
+som en _verdig_ versjon av shift-chifre som blokkchiffer.
+
+## Antall forskjellige nøkler
+
+Hver nøkkel i Vigènere-chifferet består av $b$ like eller ulike tegn $k_i$, der $\forall k_i \in K,\: k_i \in \mathbb{Z}_N$, så chifferet har $N^b$ ulike nøkler.
+
+# Oppgave 7 - Vigènere
 
 ## 7a)
 
@@ -259,7 +289,8 @@ $$
 
 ## 8b)
 
-Får kryptert `PRIM` til `NHID`
+Får kryptert `PRIM` til `NHID` ved å gange hver blokk i `PRIM` med $K$.
+Se [hill.py](hill.py), spesielt funksjonen `encpypt`, naturligvis.
 
 ## 8c)
 
@@ -269,7 +300,9 @@ Resultat: `FREDAG`. Tatt i betraktning tendensen til å bruke fraser fra/titler 
 
 ## 8d)
 
-Vet at $m=2$ og at `EASY` ble kryptert til `IØÅY`.
+Vet at $m=2$ og at "EASY" ble kryptert til "IØÅY".
+
+Konverterte til tallverdier med Python-koden jeg skrev.
 
 Skal altså finne en matrise $K$ som tilfredsstiller
 
