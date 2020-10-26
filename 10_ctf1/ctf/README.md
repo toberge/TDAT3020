@@ -13,6 +13,10 @@
   + oh-ho-ho, the second hint was a real spoiler...
   + simply POSTing to /page/1/edit gave the last flag.
 
++ soooo... Without `sqlmap`, just typing
+  `' OR 0 UNION SELECT "asdf" FROM dual; --`
+  in the password field resulted in _actually_ getting logged in.
+
 # Micro-CMS v1
 
 ## Flag 0
