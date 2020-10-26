@@ -125,7 +125,9 @@ Enkle grep Alice og Bob kan gjøre for å bedre sikkerheten:
 
 ## 4c)
 
-Blokker med $n$ tegn, har en nøkkel som oversetter hvert tegn ved å substituere med en av $29!$ nøkler.
+Blokker med $n$ tegn, har en nøkkel som oversetter hver blokk ved å substituere med en av $29^n$ nøkler.
+
+<!-- men jaaaa -->
 
 Altså: $\left(29^n\right)!$
 
@@ -194,6 +196,13 @@ Skrev litt Haskell-kode igjen og det årna sæ:
 bl $ encryptNums 29 (tl "NÅERDETSNARTHELG") (tl "TORSK")
 ```
 
+eller
+
+```haskell
+encrypt "NÅERDETSNARTHELG" "TORSK"
+```
+
+
 Fikk `DNVGNXEGCKHEYWVZ` som den krypterte teksten, verifiserte at det gikk an å oversette tilbake.
 
 (kjørte det bare i `ghci`-interpreteren, lagde ikke noen `main` for denne)
@@ -203,7 +212,7 @@ Fikk `DNVGNXEGCKHEYWVZ` som den krypterte teksten, verifiserte at det gikk an å
 Skal dekryptere `QZQOBVCAFFKSDC` med nøkkelord `BRUS`
 
 ```haskell
-decrypt "PIZZAELLERTACO" "BRUS"
+decrypt "QZQOBVCAFFKSDC" "BRUS"
 ```
 
 Får `PIZZAELLERTACO` -- ja takk, begge deler
