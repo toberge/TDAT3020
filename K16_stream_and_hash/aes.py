@@ -232,7 +232,7 @@ def our_key_expansion(k):
     words[3, :] = k[3*N:4*N]
     print(np.reshape(words[:4], (16)))
     # W_i-N xor RotWord(W_i-1) xor rcon_i/N for i >= N and i % N == 0
-    words[4, :] = words[0] ^ np.roll(words[3], -1) ^ R_CON[1]
+    words[4, :] = words[0] ^ np.roll(words[3], -1) ^ [R_CON[1],0,0,0]
     # W_i-N xor W_i-1 otherwise
     words[5, :] = words[1] ^ words[4]
     return words
@@ -250,6 +250,7 @@ def main():
     a1 = aes1([0x24, 0x59, 0x66, 0x0c, 0x99, 0xda, 0x9b, 0x00,
                0xd6, 0x55, 0xfd, 0x20, 0xe9, 0xff, 0x46, 0x95], k)
     print(' '.join(f'{a:02X}' for a in np.nditer(a1, order='C')))
+    print(' '.join(f'{a:02X}' for a in np.nditer(aes1_inv(list(np.nditer(a1, order='F')), k), order='C')))
     print() # wtf does order='K' even do? column major, it seems?
 
     print('Oppgave 5b)')
