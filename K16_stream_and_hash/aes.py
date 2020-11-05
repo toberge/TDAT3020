@@ -188,14 +188,14 @@ def aes1_inv(a: [], k: []):
     a = np.transpose(np.reshape(a, [4, 4]))
     k = np.transpose(np.reshape(k, [4, 4]))
 
-    print('addRoundKey:')
-    a = a ^ k
-    print(a)
     print('shiftRows:')
     a = shift_rows_inv(a)
     print(a)
     print('subBytes...')
     a = sub_bytes_inv(a)
+    print(a)
+    print('addRoundKey:')
+    a = a ^ k
     print(a)
     return a
 
@@ -230,7 +230,6 @@ def our_key_expansion(k):
     words[1, :] = k[N:2*N]
     words[2, :] = k[2*N:3*N]
     words[3, :] = k[3*N:4*N]
-    print(np.reshape(words[:4], (16)))
     # W_i-N xor RotWord(W_i-1) xor rcon_i/N for i >= N and i % N == 0
     words[4, :] = words[0] ^ np.roll(words[3], -1) ^ [R_CON[1],0,0,0]
     # W_i-N xor W_i-1 otherwise
@@ -246,10 +245,12 @@ def our_key_expansion(k):
 def main():
     k = [0x67, 0x71, 0x35, 0xc4, 0xff, 0xda, 0xe5, 0xff,
          0x1c, 0x54, 0xe1, 0xfd, 0x7f, 0x2e, 0x88, 0xb7]
+    msg = [0x24, 0x59, 0x66, 0x0c, 0x99, 0xda, 0x9b, 0x00,
+           0xd6, 0x55, 0xfd, 0x20, 0xe9, 0xff, 0x46, 0x95]
     print('Oppgave 5a)')
-    a1 = aes1([0x24, 0x59, 0x66, 0x0c, 0x99, 0xda, 0x9b, 0x00,
-               0xd6, 0x55, 0xfd, 0x20, 0xe9, 0xff, 0x46, 0x95], k)
+    a1 = aes1(msg, k)
     print(' '.join(f'{a:02X}' for a in np.nditer(a1, order='C')))
+    # TODO: clean dis uppppp
     print(' '.join(f'{a:02X}' for a in np.nditer(aes1_inv(list(np.nditer(a1, order='F')), k), order='C')))
     print() # wtf does order='K' even do? column major, it seems?
 
