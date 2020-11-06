@@ -144,20 +144,55 @@ K &= 1001\\
 \end{aligned}
 $$
 
-Funksjonen $h$ kan enkelt lages med litt bitshifting og maskering.
+Funksjonen $h$ kan enkelt lages med litt bitshifting og maskering:
+
+```python
+h = lambda x: ((x*x % (256)) >> 2) & 15
+```
 
 Selve HMAC krever _flere_ bitshifts til venstre for å konkatenere bitmønstrene.
 
+```python
+hmac = lambda x: h(
+    ((K^opad)<<4) # 4 bits
+    +h(((K^ipad)<<4)+x) # 8 bits
+)
+```
 
 ## 3a)
 
-Tydeligvis `1001`
+Koden jeg skrev gir `0100` som HMAC av `0110`.
 
 ## 3b)
 
 <!-- Jeg får `hmac(0b0111)` til å bli `0100` – den stemmer ikke med den oppgitte HMAC-en, så det _er_ grunn til å tro at meldingen _ikke_ er autentisk. -->
 
-Jeg får `hmac(0b0111)` til å bli `0100` – den _stemmer faktisk_ med den oppgitte HMAC-en, så det er _ikke_ grunn til å tro at meldingen _ikke_ er autentisk. (Jeg og avsender vet nøkkelen, ingen andre skal vite det → _ren flaks_ kreves for å forfalske HMAC-en.)
+Jeg får `hmac(0b0111)` til å bli `0100` – den _stemmer faktisk_ med den oppgitte HMAC-en, så det _trenger ikke_ være grunn til å tro at meldingen _ikke_ er autentisk.
+
+Jeg og avsender vet nøkkelen, ingen andre skal vite det → _ren flaks_ kreves for å forfalske HMAC-en. Men trengs det mye flaks for å gjette en HMAC her?
+Siden mønstrene i oppgave 3a og 3b begge gir samme HMAC, aner jeg et problem.
+
+De mulige bitmønstrene er $\mathcal{P} = {0,1}^4$.
+Skrev et par linjer for å teste fordelingen av mulige HMAC-outputs:
+
+```python
+hmacs = Counter(hmac(i) for i in range(16))
+print('\n'.join(f'{k:04b}: {v}' for k, v in hmacs.items()))
+```
+
+Får da at fordelingen av bitmønstre som denne HMAC mapper til, er:
+
+```
+0000: 6
+0001: 2
+0100: 6
+1001: 2
+```
+
+Det er altså _lurt_ å velge `0100` som en forfalsket HMAC -- sannsynligheten er $\frac{6}{2+2+6+6} = \frac{6}{16} = \frac{3}{8} = 37,5\%$ for at dette er den rette! (nå skal det sies at angriper ikke vet nøkkelen, så angriper vet ikke _nødendigvis_ at dette er en lur HMAC-verdi)
+
+Tilsvarende går det an å si at det er $\frac{1}{6} \approx 16,7\%$ sannsynlighet for at denne meldingen er den som ga HMAC `0100`.
+Det er _ikke_ en spesielt høy sannsynlighet, så jeg vil si at vi _ikke med sikkerhet_ (eller, med $16.7\%$ sikkerhet) kan si at `0111` er en autentisk melding.
 
 # Oppgave 4 - CBC-MAC
 
