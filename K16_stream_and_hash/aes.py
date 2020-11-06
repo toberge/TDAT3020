@@ -4,22 +4,14 @@ AES with block size 128 -> Nr = 10
 The S-Box and its inverse are taken from code by
 Josh Davis, Alex Martelli and originally Laurent Haan,
 and should be _exactly the same_ as the ones on the Wikipedia page and so on.
+
+Haskell has corrupted me when it comes to variable naming, I'm sorry.
+
+You'll also have to excuse the absoulutely unnecessary printouts,
+they *were* necessary for comparing results with classmates.
 """
 
 import numpy as np
-
-# To multiply the byte vector with
-# SUB_MATRIX = np.array([
-#     [1,0,0,0,1,1,1,1],
-#     [1,1,0,0,0,1,1,1],
-#     [1,1,1,0,0,0,1,1],
-#     [1,1,1,1,0,0,0,1],
-#     [1,1,1,1,1,0,0,0],
-#     [0,1,1,1,1,1,0,0],
-#     [0,0,1,1,1,1,1,0],
-#     [0,0,0,1,1,1,1,1],
-# ])
-# not needed, though...
 
 # S-Box for AES
 S_BOX = [0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67,
@@ -73,7 +65,7 @@ INV_S_BOX = [0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38, 0xbf, 0x40, 0xa3,
              0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55,
              0x21, 0x0c, 0x7d]
 
-R_CON = [0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36,
+RCON = [0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36,
          0x6c, 0xd8, 0xab, 0x4d, 0x9a, 0x2f, 0x5e, 0xbc, 0x63, 0xc6, 0x97,
          0x35, 0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91, 0x39, 0x72,
          0xe4, 0xd3, 0xbd, 0x61, 0xc2, 0x9f, 0x25, 0x4a, 0x94, 0x33, 0x66,
@@ -97,50 +89,6 @@ R_CON = [0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36,
          0xfa, 0xef, 0xc5, 0x91, 0x39, 0x72, 0xe4, 0xd3, 0xbd, 0x61, 0xc2,
          0x9f, 0x25, 0x4a, 0x94, 0x33, 0x66, 0xcc, 0x83, 0x1d, 0x3a, 0x74,
          0xe8, 0xcb]
-
-BITS_IN_A_BYTE = 8
-NUM_ROUNDS = 10
-N = 0x11B # bits 8, 4, 3, 1, 0 are set
-
-def key_expansion_core(k, i):
-    """Key expansion for AES, inner core"""
-    # use np.roll(k, -1) or sth
-    k = np.roll(k, -1) # RotWord
-    # and then s-box it
-    k = [S_BOX[b] for b in k] # SubWord
-    # then look in the rcon table too, for the first one
-    k[0] ^= R_CON[i] # Round constant
-    return k
-
-def create_inverse_table():
-    pass
-
-def rotl(b, n):
-    return b << n | b >> (BITS_IN_A_BYTE - n)
-
-# def mult_inv(a):
-#     t = 0
-#     nt = 1
-#     r = N
-#     nr = a
-
-#     while nr != 0:
-#         q = r // nr
-#         t, nt = (nt, (t ^ (- (q * nt) % N)) % N)
-#         r, nr = (nr, (r ^ (- (q * nr) % N)) % N)
-
-#     if r > 1:
-#         raise Exception('nani the fugg: ' + str(r))
-#     if t < 0:
-#         t = t + N
-#     return t
-
-# def s_box(a):
-    # mult inv first
-    # b = mult_inv(a)
-    # from https://en.wikipedia.org/wiki/Rijndael_S-box#Forward_S-box
-    # return b ^ rotl(b,1) ^ rotl(b,2) ^ rotl(b,3) ^ rotl(b,4) ^ 0x63
-    # oh, screw it all
 
 def sub_bytes(arr: np.array):
     """Performs the SUBBYTES step of the AES"""
@@ -191,7 +139,7 @@ def aes1_inv(a: [], k: []):
     print('shiftRows:')
     a = shift_rows_inv(a)
     print(a)
-    print('subBytes...')
+    print('subBytes:')
     a = sub_bytes_inv(a)
     print(a)
     print('addRoundKey:')
@@ -216,7 +164,7 @@ def aes1(a: [], k: []):
     print('subBytes:')
     print(a)
     a = shift_rows(a)
-    print('shiftRows...')
+    print('shiftRows:')
     print(a)
     return a
 
@@ -226,14 +174,14 @@ def our_key_expansion(k):
     R = 1.5
 
     words = np.empty((6, 4), dtype=np.uint8)
-    words[0, :] = k[:N] # W_i = K_i for i < N
-    words[1, :] = k[N:2*N]
-    words[2, :] = k[2*N:3*N]
-    words[3, :] = k[3*N:4*N]
+    words[0] = k[:N] # W_i = K_i for i < N
+    words[1] = k[N:2*N]
+    words[2] = k[2*N:3*N]
+    words[3] = k[3*N:4*N]
     # W_i-N xor RotWord(W_i-1) xor rcon_i/N for i >= N and i % N == 0
-    words[4, :] = words[0] ^ np.roll(words[3], -1) ^ [R_CON[1],0,0,0]
-    # W_i-N xor W_i-1 otherwise
-    words[5, :] = words[1] ^ words[4]
+    words[4] = words[0] ^ np.roll(words[3], -1) ^ [RCON[1],0,0,0]
+    # W_i-N xor W_i-1 otherwise (i % N is never 4 since N == 4 here)
+    words[5] = words[1] ^ words[4]
     return words
 
     # for i in range(N, int(4*R-1), N):
@@ -250,8 +198,9 @@ def main():
     print('Oppgave 5a)')
     a1 = aes1(msg, k)
     print(' '.join(f'{a:02X}' for a in np.nditer(a1, order='C')))
-    # TODO: clean dis uppppp
-    print(' '.join(f'{a:02X}' for a in np.nditer(aes1_inv(list(np.nditer(a1, order='F')), k), order='C')))
+
+    a1_inv = aes1_inv(list(np.nditer(a1, order='F')), k)
+    print(' '.join(f'{a:02X}' for a in np.nditer(a1_inv, order='C')))
     print() # wtf does order='K' even do? column major, it seems?
 
     print('Oppgave 5b)')
