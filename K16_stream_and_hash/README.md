@@ -191,8 +191,9 @@ cbcmac k = drop 1 . scanl cipher 0
 
 Resultatet:
 
-$CBC-MAC x$ → `0000 0010 1011 1101`
-$CBC-MAC x'$ → `0101 1100 0000 0010`
+`CBC-MAC` av x → `0000 0010 1011 1101`
+
+`CBC-MAC` av x' → `0101 1100 0000 0010`
 
 # Oppgave 5 - AES-kryptering
 
