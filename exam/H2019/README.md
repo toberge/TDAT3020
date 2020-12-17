@@ -75,11 +75,11 @@ Skriptet søker etter `docx`-filer _med et spesifikt navn_ i rotmappa (`/`) og t
 
 # 7 Script II
 
-`-print0` gjør at outputen til `find` separeres med `null`-bytes istedenfor linjeskift.
+`-print0` gjør at outputen til `find` separeres med `null`-bytes istedenfor ~~linjeskift~~ whitespace.
 
-`-0` gjør at `xargs` leser inn argumenter separert med `null`-bytes istedenfor linjeskift.
+`-0` gjør at `xargs` leser inn argumenter separert med `null`-bytes istedenfor ~~linjeskift~~ whitespace.
 
-Dette gjør at find-output som _tilfeldigvis_ har linjeskift i seg, ikke ødelegger utførelsen av pipelinen. Vi vil jo at _alle_ filnavnene som matcher `find`-kommandoen skal brukes i `xargs`, selv om de er laget av folk som absolutt må slenge inn `\n` i filnavnene sine.
+Dette gjør at find-output som _tilfeldigvis_ har linjeskift i seg, ikke ødelegger utførelsen av pipelinen. Vi vil jo at _alle_ filnavnene som matcher `find`-kommandoen skal brukes i `xargs`, selv om de er laget av folk som absolutt må slenge inn mellomrom, `\t`, `\n` o.l. i filnavnene sine.
 
 # 8 Brannmur
 
