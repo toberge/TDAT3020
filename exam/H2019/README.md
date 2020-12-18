@@ -89,4 +89,42 @@ Eksempel: Forkast alle pakker utenfra som sendes til andre porter enn 80 på den
 
 # 9 Case
 
-yes yes
++ Viktige data skal ikke lagres utenfor → interne filservere, _ingen_ eksterne skytjenester
++ Kun egne PC-er skal kobles til internt nett → en form for identifisering kreves (MAC-begrensing er en _mulighet_, men ikke en god en)
+  + Yo, ha en slags autentisering for å komme inn på nettet
+    + Sertifikat, RADIUS?
+  + Fysisk screening av ansatte er kanskje et _bedre_ forslag
++ Tilgangsbegrensning til internett for de ansatte → kun epost (som skal være intern) og surfing (begrens til TCP-port 443 og 80 + det som er for epost + UDP for streaming-tjenester I guess?)
++ Utenfra skal epost- og webtjener være tilgjengelig → DMZ for disse
++ Unngå fysiske innbrudd → God fysisk sikring og varslingssystem. Utenfor _vårt_ scope, kontakt en fysisk pentester. Lås dørene, ha et system for korttilgang eller noe.
++ Korte strømbrudd skal ikke være problematiske → UPS for kortvarig backup på viktige servere
++ Tordenvær → Lynavleder fins vel i nærheten? Overspenningsvern skal følge med UPS
++ Todelt nettverk, et uten og et _med_ nettilgang
++ Ansatte på reise skal kunne _hente_ dokumenter → VPN for tilgang utenfra
+
+## Opplæring
+
++ Korsen bruk æ eitt VPN?
++ Introduksjon til ordningen
++ Sikre passord
++ Diskene deres er nå krypterte. Her er hvordan dette funker.
+
+## Nettverksoppbygning
+
+(illustrasjon av dobbel eller tobeint brannmur)
+
+## Pakkefilter
+
++ Ansattes tilgang til internett: Kommunikasjon til verden utenfor skal _kun_ foregå _til_ port 443 og 80 (og epost) _fra_ `158.38.50.0/24` via TCP.
+  + Eventuelle andre tjenester _kan_ det åpnes opp for
+  + Sperring av eventuelle suspekte/distraherende sider kan diskuteres
++ Webserver og mailserver bør separeres på en underdel av det tilgjengelige nettet
+  + Eventuelt adskilt med enda en brannmur
++ Todelt nettverk: Fra maskiner på `158.38.51.0/24` skal det _ikke_ gå trafikk til/fra verden utenfor!
+  + Kommunikasjon mellom de to nettene må begrenses _kraftig_.
++ VPN gjør det nødvendig å åpne for port og protokoll som tjenesten bruker
+  + Eventuelt separert på et eget internt nett
+
+## Annet
+
++ Krypterte disker, yo
