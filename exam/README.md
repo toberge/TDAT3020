@@ -1,3 +1,18 @@
+# Eksamensspeedrun (bestått%)
+
+| Splitt             | Ferdig | Intervall   |
+| ------------------ | ------ | ----------- |
+| Oppgave 1 og 3     | kl. 11 | 2 timer     |
+| Oppgave 2 (krypto) | kl. 12 | 1 time      |
+| **bestått%**       |        | **3 timer** |
+| Finpuss            | kl. 13 | 1 time      |
+| **Totalt**         |        | **4 timer** |
+
+Tida det tok før jeg nådde minimumskravet til bestått%: Mindre enn 3 timer.
+Med finpuss: Cirka 4 timer.
+
+Ingen av tallene er helt nøyaktige.
+
 # Typisk layout på en eksamen
 
 + Disassemblet kode som vi skal forklare hvordan vi kan exploite
